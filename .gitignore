@@ -1,0 +1,16 @@
+### JetBrains ###
+.idea/
+*.iml
+
+### VS Code ###
+.vscode/
+.history/
+
+
+### Node ###
+logs
+*.log
+node_modules/
+package-lock.json
+dist/
+*.tsbuildinfo
