@@ -165,6 +165,7 @@
         const overlay = document.getElementById("overlay");
         const baseUrl = "https://match00.github.io/Portfolio_public";
 
+        // Ustawienie aktywnego linku domyślnie
         links.forEach((link) => {
           if (link.dataset.version === "v5") {
             link.classList.add("active");
@@ -172,7 +173,8 @@
           link.addEventListener("click", function (e) {
             e.preventDefault();
             const version = this.dataset.version;
-            iframe.src = ;
+            // Poprawne przypisanie src iframe
+            iframe.src = `${baseUrl}/${version}/`;
             links.forEach((l) => l.classList.remove("active"));
             this.classList.add("active");
             closeMenu();
