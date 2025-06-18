@@ -1,118 +1,200 @@
 <!DOCTYPE html>
 <html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Portfolio Projekty | matCh00</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --background-color: #f8f9fa;
+      :root {
+        --header-height: 38px;
+        --transition-speed: 0.3s;
+        --header-bg: #333333;
+        --header-text: #eeeeee;
+        --link-color: #dddddd;
+        --link-hover-bg: #555555;
+        --link-active-bg: #777777;
+        --overlay-bg: rgba(0, 0, 0, 0.6);
+        --safe-top: env(safe-area-inset-top);
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f0f0f0;
+        color: #222222;
+        padding-top: calc(var(--header-height) + var(--safe-top));
+      }
+      header {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: var(--header-height);
+        padding-top: var(--safe-top);
+        background: var(--header-bg);
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 0 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+      }
+      .logo h1 {
+        font-size: 1.25rem;
+        color: var(--header-text);
+        font-weight: 500;
+      }
+      #menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--header-text);
+        z-index: 2001;
+      }
+      nav { display: flex; }
+      nav ul {
+        list-style: none;
+        display: flex;
+        align-items: center;
+      }
+      nav ul li { margin-left: 1rem; }
+      nav ul li a {
+        text-decoration: none;
+        color: var(--link-color);
+        font-size: 0.95rem;
+        font-weight: 500;
+        padding: 0.4rem 0.8rem;
+        border-radius: 999px;
+        transition: all var(--transition-speed), color var(--transition-speed);
+      }
+      nav ul li a:hover {
+        background: var(--link-hover-bg);
+        color: var(--header-text);
+      }
+      nav ul li a.active {
+        background: var(--link-active-bg);
+        color: var(--header-text);
+      }
+      .overlay {
+        display: none;
+        position: fixed;
+        top: calc(var(--header-height) + var(--safe-top));
+        left: 0;
+        width: 100%;
+        height: calc(100vh - var(--header-height) - var(--safe-top));
+        background: var(--overlay-bg);
+        z-index: 1500;
+        opacity: 0;
+        transition: opacity var(--transition-speed);
+      }
+      .overlay.open {
+        display: block;
+        opacity: 1;
+      }
+      @media (max-width: 768px) {
+        #menu-toggle { display: block; }
+        nav {
+          display: none;
+          position: fixed;
+          top: calc(var(--header-height) + var(--safe-top));
+          right: 0;
+          background-color: #444444;
+          width: 100%;
+          height: calc(100vh - var(--header-height) - var(--safe-top));
+          flex-direction: column;
+          align-items: center;
+          padding-top: 1rem;
+          z-index: 1600;
         }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 2rem;
-            background-color: var(--background-color);
-            color: var(--primary-color);
+        nav.open { display: flex; }
+        nav ul {
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        nav ul li { margin: 0 0 1.5rem 0; }
+        nav ul li a {
+          font-size: 1.2rem;
+          padding: 0.8rem 1.5rem;
+          color: var(--header-text);
         }
-
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding: 2rem 0;
-            border-bottom: 2px solid var(--secondary-color);
+        nav ul li a:hover,
+        nav ul li a.active {
+          background: var(--link-hover-bg);
+          color: var(--header-text);
         }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 1rem;
-        }
-
-        .project-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .project-card h2 {
-            color: var(--secondary-color);
-            margin: 0 0 1rem 0;
-        }
-
-        .version-badge {
-            background: var(--secondary-color);
-            color: white;
-            padding: 0.3rem 0.7rem;
-            border-radius: 20px;
-            font-size: 0.9em;
-            display: inline-block;
-            margin-bottom: 1rem;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 4rem;
-            padding: 2rem 0;
-            border-top: 1px solid #ddd;
-        }
+      }
+      iframe {
+        position: absolute;
+        top: calc(var(--header-height) + var(--safe-top));
+        left: 0;
+        width: 100%;
+        height: calc(100vh - var(--header-height) - var(--safe-top));
+        border: none;
+        background-color: white;
+        z-index: 0;
+      }
     </style>
-</head>
-<body>
-    <div class="container">
-        <header class="header">
-            <h1>🚀 Portfolio versions</h1>
-            <p>View different versions of my portfolio</p>
-        </header>
+  </head>
+  <body>
+    <header>
+      <div class="logo"><h1>🚀 matCh00</h1></div>
+      <button id="menu-toggle" aria-label="Toggle menu">☰</button>
+      <nav id="nav-menu">
+        <ul>
+          <li><a href="#" data-version="v1">v1</a></li>
+          <li><a href="#" data-version="v2">v2</a></li>
+          <li><a href="#" data-version="v3">v3</a></li>
+          <li><a href="#" data-version="v4">v4</a></li>
+          <li><a href="#" data-version="v5" class="active">v5</a></li>
+        </ul>
+      </nav>
+    </header>
 
-        <div class="projects-grid">
-            <a href="./v1/" class="project-card">
-                <div class="version-badge">Version 1.0</div>
-                <h2>Portfolio v1</h2>
-                <p>First version of portfolio</p>
-            </a>
+    <div id="overlay" class="overlay"></div>
 
-            <a href="./v2/" class="project-card">
-                <div class="version-badge">Version 2.0</div>
-                <h2>Portfolio v2</h2>
-                <p>Second version of portfolio</p>
-            </a>
+    <iframe
+      id="portfolio-frame"
+      src="https://match00.github.io/Portfolio_public/v5/"
+      title="Portfolio"
+    ></iframe>
 
-            <a href="./v3/" class="project-card">
-                <div class="version-badge">Version 3.0</div>
-                <h2>Portfolio v3</h2>
-                <p>Third version of portfolio</p>
-            </a>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuToggle = document.getElementById("menu-toggle");
+        const navMenu = document.getElementById("nav-menu");
+        const links = navMenu.querySelectorAll("a[data-version]");
+        const iframe = document.getElementById("portfolio-frame");
+        const overlay = document.getElementById("overlay");
+        const baseUrl = "https://match00.github.io/Portfolio_public";
 
-            <a href="./v4/" class="project-card">
-                <div class="version-badge">Version 4.0</div>
-                <h2>Portfolio v4</h2>
-                <p>Forth version of portfolio</p>
-            </a>
-        </div>
-
-        <footer>
-            <p>© 2025 matCh00 | Site hosted on GitHub Pages</p>
-        </footer>
-    </div>
-</body>
+        links.forEach((link) => {
+          if (link.dataset.version === "v5") {
+            link.classList.add("active");
+          }
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const version = this.dataset.version;
+            iframe.src = ;
+            links.forEach((l) => l.classList.remove("active"));
+            this.classList.add("active");
+            closeMenu();
+          });
+        });
+        menuToggle.addEventListener("click", function () {
+          if (navMenu.classList.contains("open")) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
+        });
+        overlay.addEventListener("click", closeMenu);
+        function openMenu() {
+          navMenu.classList.add("open");
+          overlay.classList.add("open");
+        }
+        function closeMenu() {
+          navMenu.classList.remove("open");
+          overlay.classList.remove("open");
+        }
+      });
+    </script>
+  </body>
 </html>
